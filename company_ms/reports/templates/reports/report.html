@@ -1,0 +1,123 @@
+{% extends 'base.html' %}
+
+{% load crispy_forms_tags %}
+
+{% block title %} Create Report {% endblock title %}
+
+{% block content %}
+
+    <!--Start: Modal Window (Bootstrap)-->
+    <div class="modal fade" id="problemModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Report problems</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+
+            <!--Start: Form-->
+            <form action="" method="POST">
+            {% csrf_token %}
+                <div class="modal-body">
+                    {{ pform|crispy }}
+                    <input type="hidden" name="report_id" id="report_id">
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button type="submit" name="submitbtn1" class="btn btn-primary">Send</button>
+                </div>
+            </form> 
+            <!--Start: Form-->
+
+            </div>
+        </div>
+    </div>
+    <!--End: Modal Window-->
+
+    <!--Start: Container-->
+    <div class="container bg-white shadow-lg rounded py-2">
+        <div class="row">
+
+            <!--Start: Form-->
+            <div class="col-2">
+                <form action="" method="POST" class="">
+                {% csrf_token %}
+                    {{ form|crispy }}
+                    <button type="submit" name="submitbtn2" class="btn btn-primary w-100 shadow-sm mt-3"> Submit</button>
+                </form>
+            </div>
+            <!--End: Form-->
+
+            <!--Start: Table-->
+            <div class="col-10">
+                <div style="overflow-y:scroll; height:85vh; " class="w-100 bg-light rounded border">
+                    <table class="table">
+                        <thead class="thead-light">
+                            <tr class="text-center">
+                                <th scope="col">Product</th>
+                                <th scope="col">Day</th>
+                                <th scope="col">Start</th>
+                                <th scope="col">End</th>    
+                                <th scope="col">Plan</th>
+                                <th scope="col">Execution</th>
+                                <th scope="col">Line</th>
+                                <th scope="col">Problems</th>
+                                <th scope="col">Edit</th>
+                                <th scope="col">Delete</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for object in object_list %}
+                                <tr class="text-center">
+                                    <td> {{ object.product }} </td>
+                                    <td> {{ object.get_day }} </td>
+                                    <td> {{ object.start_hour }} </td>
+                                    <td> {{ object.end_hour }} </td>    
+                                    <td> {{ object.plan }} </td>
+                                    <td> {{ object.execution }} </td>
+                                    <td> {{ object.production_line }} </td>
+
+                                    <td class="fit">
+                                        <button class="btn btn-warning open-modal" data-toggle="modal" data-target="#problemModal" data-url={{object.id}}>
+                                            <span class="material-symbols-outlined">emergency_home</span>
+                                        </button>
+                                    </td>
+                                    <td class="fit"> 
+                                        <a href="{{ object.get_absolute_url }}"> 
+                                            <button class="btn btn-info" > 
+                                                <span class="material-symbols-outlined">edit</span> 
+                                            </button>
+                                        </a> 
+                                    </td>
+                                    <td class="fit"> 
+                                        <a href="{% url 'reports:delete-view' pk=object.id %}"> 
+                                            <button class="btn btn-danger"> 
+                                                <span class="material-symbols-outlined">delete</span> 
+                                            </button> 
+                                        </a> 
+                                    </td>                                  
+                                </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <!--End: Table-->
+
+        </div>
+    </div>
+    <!--End: Container-->
+
+    <!--Start: JS for opening modal window on click to btn-->
+    <script>
+        $(".open-modal").on("click", function() {
+            const r_id = $(this).attr("data-url")
+            $("#report_id").val(r_id)
+            console.log(r_id)
+        });
+    </script>
+    <!--End: JS for opening modal window on click to btn-->
+
+{% endblock content %}

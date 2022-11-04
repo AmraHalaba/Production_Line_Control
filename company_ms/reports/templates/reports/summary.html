@@ -1,0 +1,56 @@
+{% extends 'base.html' %}
+
+{% load crispy_forms_tags %}
+
+{% load status %}
+
+{% load substraction %}  
+
+{% block title %} Report Summary {% endblock title %}
+
+{% block content %}
+    <div class="container bg-white py-2 rounded">
+        <div class="col-12">
+            <div class="text-muted h2 pt-3">
+                <span style="font-size:40px;" class="material-symbols-outlined  mr-3">summarize</span> 
+                Results 
+            </div>        
+        </div>
+        <div class="col pt-3 pb-3">
+            Summary for <strong> {{ production_line }} </strong> Production Line on <strong> {{ day }} </strong>
+        </div>
+        <br>
+        <table class="table table-sm text-center">
+            <thead>
+                <tr>
+                    <th scope="col"> Plan </th>
+                    <th scope="col"> Execution </th>
+                    <th scope="col"> Difference </th>
+                    <th scope="col"> Status </th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td> {{ plan_qs }} </td>
+                    <td> {{ execution_qs }} </td>
+                    <td> {{ execution_qs|substraction:plan_qs }} </td>
+                    <td> {{ execution_qs|status:plan_qs }} </td>
+                </tr>
+            </tbody>
+        </table>
+        <br><br>
+        <hr>
+        <br>
+            <h3>Problems Reported</h3>
+            {% for problem in problems %}
+                <small class="text-muted"> {{ problem.problem_id }} </small> <br>
+                {{ problem.category }}<br>
+                {{ problem.description }}<br>
+                {{ problem.breakdown }} min<br>
+                <hr>
+            {% endfor %}
+        <br>
+
+        <br><br>
+    </div>
+{% endblock content %}

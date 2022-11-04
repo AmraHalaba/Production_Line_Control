@@ -1,0 +1,26 @@
+<nav class="navbar navbar-icon-top navbar-expand-lg navbar-dark bg-dark border-bottom border-secondary py-3">
+    <div class="container">
+        <a class="navbar-brand" href="{{ path_home }}">CattishCo.</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav mr-auto">
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'reports:home-view' %}">Home</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="">Board</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'reports:select-report' %}">Get report</a>
+                </li>
+                {% comment %} <li class="nav-item">
+                    <a class="nav-link" href="">Todays PDF</a>
+                </li>         {% endcomment %}
+            </ul>
+
+        </div>
+    </div>
+</nav>

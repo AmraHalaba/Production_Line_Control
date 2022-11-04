@@ -1,0 +1,28 @@
+{% extends 'base.html' %}
+
+{% load crispy_forms_tags %}
+
+{% block title %} Select a Day {% endblock title %}
+
+{% block content %}
+
+    <!--Link for CSS and JQuery for creating a Date Picker Calendar-->
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+
+    <script>
+        $(function(){
+            $(".datepicker").datepicker({'dateFormat': 'yy-mm-dd'}).val()});
+    </script>
+
+    <div class="col-6 mx-auto pb-5">
+        <div class="text-white text-center h3 m-5 pt-5">
+            Select a production line and a day
+        </div>
+        <form action="" method="POST" class="bg-light rounded p-5">
+        {% csrf_token %}
+            {{ form|crispy }}
+            <button type="submit" class="btn btn-primary"> Proceed </button>
+        </form>
+    </div>
+{% endblock content %}
